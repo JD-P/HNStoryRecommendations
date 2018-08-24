@@ -4,13 +4,19 @@ import numpy as np
 from search_hn import Hit
 import json
 import pickle
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("saved_stories", help="The saved stories from the HN export.")
+parser.add_argument("unsaved_stories", help="The stories grabbed with the training data grabber.")
+arguments = parser.parse_args()
 
 # Preprocessing stage, get saved stories and HN-search-API data in the same format
 
-with open("2018_08_21_stories_dump.json") as infile:
+with open(arguments.saved_stories) as infile:
     saved_stories = json.load(infile)["saved_stories"]
 
-with open("story_dataset.pickle", "rb") as infile:
+with open(arguments.unsaved_stories, "rb") as infile:
     stories = pickle.load(infile)
 
 # Now we have to get them into similar formats
@@ -77,7 +83,10 @@ def p_of_upvote_given_title(title):
     from operator import mul
     stemmer = PorterStemmer()
     p_updates = [1 - p_of_upvote_given_word(word) for word in stemmer.stem(title).split()]
-    return 1 - reduce(mul, p_updates)
+    try:
+        return 1 - reduce(mul, p_updates)
+    except:
+        return 0
     
 for story in stories:
     p_of_upvote = p_of_upvote_given_title(story.title)
