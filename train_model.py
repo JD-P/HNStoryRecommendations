@@ -87,10 +87,26 @@ def p_of_upvote_given_title(title):
         return 1 - reduce(mul, p_updates)
     except:
         return 0
-    
-for story in stories:
+# Okay now lets figure out precision and recall
+hits = 0
+precision_total = 0
+recall_total = len(ss_objects)
+for story in stories + ss_objects:
     p_of_upvote = p_of_upvote_given_title(story.title)
     if p_of_upvote >= .15:
-        print("{}: {}%\n{}\n".format(story.title,
-                                     p_of_upvote * 100,
-                                     story.url))
+        if story.upvoted:
+            hits += 1
+            precision_total += 1
+        else:
+            precision_total += 1
+
+print("Precision: {}% of documents retrieved are relevant.".format((hits /
+                                                                   precision_total) *
+                                                                   100))
+print("Recall: {}% of relevant documents retrieved.".format((hits/recall_total)*100))
+
+        
+        
+#print("{}: {}%\n{}\n".format(story.title,
+#                            p_of_upvote * 100,
+#                            story.url))
