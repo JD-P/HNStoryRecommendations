@@ -49,7 +49,11 @@ Buckle in because it'll take a little while to grab all the stories we want from
 the search API. This tool will output the stories to a .pickle file you'll use
 for the next step.
 
-10. Finally, run the training program which will train the model and give you
-an output of stories above a 15% upvote likelihood threshold:
+10. Run "clean_data.py" to get the top word list we'll need to use with our model.
 
-    python3 train_model.py your_stories_file.json your_training_stories.pickle
+    python3 clean_data.py your_stories_file.json your_training_stories.pickle
+
+11. Finally, run the training program which will train the model and give you
+an output of stories in the 90th percentile of (relative) probability.
+
+    python3 train_model.py top_words_file.pickle your_stories_file.json your_training_stories.pickle
