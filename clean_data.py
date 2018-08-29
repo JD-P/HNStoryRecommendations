@@ -139,7 +139,7 @@ for story_i in enumerate(ss_objects):
 #    story_features["title"] = title_vector
 #    unsaved_story_features.append(story_features)
 
-with open("story_features.pickle", "wb") as outfile:
+with open("top_words.pickle", "wb") as outfile:
     output = twt
     pickle.dump(output, outfile)
 
